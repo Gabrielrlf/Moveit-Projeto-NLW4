@@ -1,17 +1,51 @@
-import { useContext } from 'react'
+import axios from 'axios'
+import { useContext, useEffect, useState } from 'react'
 import { ChallengesContext } from '../contexts/ChallengeContext'
 import styles from '../styles/components/Profile.module.css'
 
 export function Profile() {
-    const { level} = useContext(ChallengesContext)
+    const { level } = useContext(ChallengesContext)
+
+    const [img, setImg] = useState('')
+    const [name, setName] = useState('Default')
+    const [inputName, setInputName ] = useState("");
+
+
+    function getInfoUserGitHub(input: String){
+        axios.get(`https://api.github.com/users/${input}`).then(result => {
+            if (result) {
+                setImg(result.data.avatar_url);
+                setName(result.data.name);
+            }
+        });
+    }
+
+    useEffect(() => {
+        getInfoUserGitHub('Github');
+    }, [])
+
+    function handleInputName(e){
+        setInputName(e.target.value)
+    }
+
+    function getUserGit() {
+        getInfoUserGitHub(inputName);
+    }
+    
     return (
-        <div className={styles.profileContainer}>
-            <img src="https://avatars.githubusercontent.com/u/49160989?s=200&u=3b91b400a2fed2798905f437985e231854d204ab&v=4" alt="imagem" />
-            <div>
-                <strong>Gabriel Fonseca</strong>
-                <p>
-                    <img src="icons/level.svg" alt="level"/>
+        <div>
+            <div style={{ display: 'flex' }}>
+                <input type="text" placeholder="User do GitHub" onChange={(e) => handleInputName(e)} value={inputName} className={styles.inputUserGit} />
+                <button type="button" onClick={getUserGit} className={styles.btnUserGit}> Procurar </button>
+            </div>
+            <div className={styles.profileContainer}>
+                <img src={img} alt="imagem" />
+                <div>
+                    <strong>{name}</strong>
+                    <p>
+                        <img src="icons/level.svg" alt="level" />
                     Level {level}</p>
+                </div>
             </div>
         </div>
     )

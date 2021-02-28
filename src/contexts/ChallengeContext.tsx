@@ -1,7 +1,9 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
+import { ModalLevelUp } from '../components/ModalLevelUp';
 import Cookies from 'js-cookie';
 import challenges from '../../Challenges.json';
-import { ModalLevelUp } from '../components/ModalLevelUp';
+import Service from '../api/service';
+
 
 interface Challenge {
     type: 'body' | 'eye';
@@ -97,7 +99,6 @@ export function ChallengesProvider({ children, ...rest }: ChallengesProviderProp
         setChallengesCompleted(challengesCompleted + 1);
     }
 
-    console.log(isLevelUpModalOpen)
     return (
         <ChallengesContext.Provider value={{
             level,

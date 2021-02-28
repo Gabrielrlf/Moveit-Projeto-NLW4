@@ -27,3 +27,30 @@
 .profileContainer div p img {
 margin-right: 0.5rem;
 }
+
+.inputUserGit {
+    border: none;
+    outline: 0;
+    margin-bottom: 1.5rem;
+    padding: 5px;
+
+    border-radius: 5px;
+    height: 1.9rem;
+
+}
+
+
+.btnUserGit {
+    width: 30%;
+    height: 2.6rem;
+    margin-left: 15px;
+ 
+    border: 0;
+    border-radius: 4px;
+  
+    background: var(--blue);
+    color: var(--white);
+  
+    font-size: 1.25rem;
+    font-weight: 600;
+}

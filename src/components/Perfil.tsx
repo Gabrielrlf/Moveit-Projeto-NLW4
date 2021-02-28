@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
 import { ChallengesContext } from '../contexts/ChallengeContext'
 import styles from '../styles/components/Profile.module.css'
 
@@ -7,16 +8,23 @@ export function Profile() {
     const { level } = useContext(ChallengesContext)
 
     const [img, setImg] = useState('')
-    const [name, setName] = useState('Default')
-    const [inputName, setInputName ] = useState("");
+    const [name, setName] = useState("")
+    const [inputName, setInputName] = useState("");
 
 
-    function getInfoUserGitHub(input: String){
+    function getInfoUserGitHub(input: String) {
         axios.get(`https://api.github.com/users/${input}`).then(result => {
             if (result) {
                 setImg(result.data.avatar_url);
                 setName(result.data.name);
             }
+        }).catch(() => {
+            Swal.fire(
+                "Atenção",
+                `Desculpe, não foi possível encontrar um usuário com o login de ${inputName}`,
+                'warning'
+                )
+                setInputName('');
         });
     }
 
@@ -24,14 +32,14 @@ export function Profile() {
         getInfoUserGitHub('Github');
     }, [])
 
-    function handleInputName(e){
+    function handleInputName(e) {
         setInputName(e.target.value)
     }
 
     function getUserGit() {
         getInfoUserGitHub(inputName);
     }
-    
+
     return (
         <div>
             <div style={{ display: 'flex' }}>
